@@ -57,11 +57,20 @@ func editHandler(w http.ResponseWriter, r *http.Request){
 	renderTemplate(w, "edit", p)
 }
 
+func saveHandler(w http.ResponseWriter, r *http.Request){
+	title := r.URL.Path[len("/save/"):] // Obtenemos el titulo de la pagina
+	body := r.FormValue("body") // Obtenemos el contenido de la pagina
+	p := &Page{Title: title, Body: []byte(body)} // Creamos una nueva pagina
+	p.save() // Guardamos la pagina
+	http.Redirect(w, r, "/view/"+title, http.StatusFound) // Redireccionamos a la pagina de edicion
+}
+
 func main() {
 	// Crear rutas 
 	// Responder al clinete con un mensaje
 	http.HandleFunc("/view/", viewHandler)
 	http.HandleFunc("/edit/", editHandler)
+	http.HandleFunc("/save/", saveHandler)
 
 	// Levantar el servidor
 	log.Fatal(http.ListenAndServe(":8080", nil)) // Escuchamos en el puerto 8080
