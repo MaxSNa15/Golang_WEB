@@ -1,10 +1,10 @@
-<h1>Editanddo {{.Title}}</h1>
-<p>Todos son</p>
+<h1>Editando {{.Title}}</h1>
+<h2>Edita la pagina en el siguiente campo</h2>
 <form action="/save/{{.Title}}" method="POST">
     <div>
         <textarea name="body" id="body" rows="10" cols="80">{{printf "%s" .Body}}</textarea>
     </div>
     <div>
-        <input type="submit" value="Gurdar">
+        <input type="submit" value="Guardar">
     </div>
 </form>

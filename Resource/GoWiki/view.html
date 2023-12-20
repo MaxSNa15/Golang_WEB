@@ -1,10 +1,6 @@
-<h1>Editanddo {{.Title}}</h1>
-<p>Todos son</p>
-<form action="/save/{{.Title}}" method="POST">
-    <div>
-        <textarea name="body" id="body" rows="10" cols="80">{{printf "%s" .Body}}</textarea>
-    </div>
-    <div>
-        <input type="submit" value="Gurdar">
-    </div>
-</form>
+<h1>Vista de la pag. {{.Title}}</h1>
+
+<h2> [<a href="/edit/{{.Title}}">Editar</a>] </h2>
+
+
+<p>{{printf "%s" .Body}}</p>
