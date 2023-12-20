@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 	"os"
 )
 
@@ -28,9 +30,23 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil // Retornamos la pagina y nil
 }
 
+func viewHandler(w http.ResponseWriter, r *http.Request){
+	// Cargar la pagina
+	title := r.URL.Path[len("/view/"):] // Obtenemos el titulo de la pagina
+	// Cargar la pagina
+	p, _ := loadPage(title) // Cargamos la pagina
+	fmt.Fprintf(w, "<h1>%s</h1> <div>%s</div>", p.Title, p.Body) // Imprimimos el mensaje
+}
+
 func main() {
-	p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")} // Creamos una pagina
-	p1.save() // Guardamos la pagina
-	p2, _ := loadPage("TestPage") // Cargamos la pagina
-	fmt.Println(string(p2.Body)) // Imprimimos el contenido de la pagina
+	// p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")} // Creamos una pagina
+	// p1.save() // Guardamos la pagina
+	// p2, _ := loadPage("TestPage") // Cargamos la pagina
+	// fmt.Println(string(p2.Body)) // Imprimimos el contenido de la pagina
+
+	// Responder al clinete con un mensaje
+	http.HandleFunc("/view/", viewHandler)
+
+	// Levantar el servidor
+	log.Fatal(http.ListenAndServe(":8080", nil)) // Escuchamos en el puerto 8080
 }
