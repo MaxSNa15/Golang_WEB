@@ -39,14 +39,21 @@ func viewHandler(w http.ResponseWriter, r *http.Request){
 	// Cargar la pagina
 	title := r.URL.Path[len("/view/"):] // Obtenemos el titulo de la pagina
 	// Cargar la pagina
-	p, _ := loadPage(title) // Cargamos la pagina
+	p, err := loadPage(title) // Cargamos la pagina
+	if err != nil { // Si existe un error
+		http.Redirect(w, r, "/edit/"+title, http.StatusFound) // Redireccionamos a la pagina de edicion
+		return // Retornamos
+	}
 	//fmt.Fprintf(w, "<h1>%s</h1> <div>%s</div>", p.Title, p.Body) // Imprimimos el mensaje
 	renderTemplate(w, "view", p)
 }
 
 func editHandler(w http.ResponseWriter, r *http.Request){
 	title := r.URL.Path[len("/edit/"):] // Obtenemos el titulo de la pagina
-	p, _ := loadPage(title) // Cargamos la pagina
+	p, err := loadPage(title) // Cargamos la pagina
+	if err != nil { // Si existe un error
+		p = &Page{Title: title} // Creamos una nueva pagina
+	}
 	renderTemplate(w, "edit", p)
 }
 
