@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -30,22 +30,31 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil // Retornamos la pagina y nil
 }
 
+func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
+	t, _ := template.ParseFiles(tmpl + ".html") // Cargamos el archivo edit.html
+	t.Execute(w, p) // Ejecutamos el archivo edit.html
+}
+
 func viewHandler(w http.ResponseWriter, r *http.Request){
 	// Cargar la pagina
 	title := r.URL.Path[len("/view/"):] // Obtenemos el titulo de la pagina
 	// Cargar la pagina
 	p, _ := loadPage(title) // Cargamos la pagina
-	fmt.Fprintf(w, "<h1>%s</h1> <div>%s</div>", p.Title, p.Body) // Imprimimos el mensaje
+	//fmt.Fprintf(w, "<h1>%s</h1> <div>%s</div>", p.Title, p.Body) // Imprimimos el mensaje
+	renderTemplate(w, "view", p)
+}
+
+func editHandler(w http.ResponseWriter, r *http.Request){
+	title := r.URL.Path[len("/edit/"):] // Obtenemos el titulo de la pagina
+	p, _ := loadPage(title) // Cargamos la pagina
+	renderTemplate(w, "edit", p)
 }
 
 func main() {
-	// p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")} // Creamos una pagina
-	// p1.save() // Guardamos la pagina
-	// p2, _ := loadPage("TestPage") // Cargamos la pagina
-	// fmt.Println(string(p2.Body)) // Imprimimos el contenido de la pagina
-
+	// Crear rutas 
 	// Responder al clinete con un mensaje
 	http.HandleFunc("/view/", viewHandler)
+	http.HandleFunc("/edit/", editHandler)
 
 	// Levantar el servidor
 	log.Fatal(http.ListenAndServe(":8080", nil)) // Escuchamos en el puerto 8080

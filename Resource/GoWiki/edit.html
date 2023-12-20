@@ -1,0 +1,10 @@
+<h1>Editanddo {{.Title}}</h1>
+<p>Todos son</p>
+<form action="/save/{{.Title}}" method="POST">
+    <div>
+        <textarea name="body" id="body" rows="10" cols="80">{{printf "%s" .Body}}</textarea>
+    </div>
+    <div>
+        <input type="submit" value="Gurdar">
+    </div>
+</form>
