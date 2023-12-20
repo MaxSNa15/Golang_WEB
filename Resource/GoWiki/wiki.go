@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"regexp"
 )
 
 // Creamos una estructura para la pagina
@@ -30,26 +31,40 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil // Retornamos la pagina y nil
 }
 
+var templates = template.Must(template.ParseFiles("edit.html", "view.html")) // Cargamos los archivos edit.html y view.html
+
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
-	t, _ := template.ParseFiles(tmpl + ".html") // Cargamos el archivo edit.html
-	t.Execute(w, p) // Ejecutamos el archivo edit.html
+	err := templates.ExecuteTemplate(w, tmpl+".html", p) // Ejecutamos el template
+	if err != nil { // Si existe un error
+		http.Error(w, err.Error(), http.StatusInternalServerError) // Creamos un error interno
+		return // Retornamos
+	}
 }
 
-func viewHandler(w http.ResponseWriter, r *http.Request){
-	// Cargar la pagina
-	title := r.URL.Path[len("/view/"):] // Obtenemos el titulo de la pagina
-	// Cargar la pagina
+var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$") // Creamos una expresion regular para validar la ruta
+
+
+func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		m := validPath.FindStringSubmatch(r.URL.Path) // Buscamos la ruta en la expresion regular
+		if m == nil { // Si no existe
+			http.NotFound(w, r) // Creamos un error 404
+			return
+		}
+		fn(w, r, m[2]) // Ejecutamos la funcion
+	}
+}
+
+func viewHandler(w http.ResponseWriter, r *http.Request, title string){
 	p, err := loadPage(title) // Cargamos la pagina
 	if err != nil { // Si existe un error
 		http.Redirect(w, r, "/edit/"+title, http.StatusFound) // Redireccionamos a la pagina de edicion
 		return // Retornamos
 	}
-	//fmt.Fprintf(w, "<h1>%s</h1> <div>%s</div>", p.Title, p.Body) // Imprimimos el mensaje
 	renderTemplate(w, "view", p)
 }
 
-func editHandler(w http.ResponseWriter, r *http.Request){
-	title := r.URL.Path[len("/edit/"):] // Obtenemos el titulo de la pagina
+func editHandler(w http.ResponseWriter, r *http.Request, title string){
 	p, err := loadPage(title) // Cargamos la pagina
 	if err != nil { // Si existe un error
 		p = &Page{Title: title} // Creamos una nueva pagina
@@ -57,20 +72,23 @@ func editHandler(w http.ResponseWriter, r *http.Request){
 	renderTemplate(w, "edit", p)
 }
 
-func saveHandler(w http.ResponseWriter, r *http.Request){
-	title := r.URL.Path[len("/save/"):] // Obtenemos el titulo de la pagina
+func saveHandler(w http.ResponseWriter, r *http.Request, title string){
 	body := r.FormValue("body") // Obtenemos el contenido de la pagina
 	p := &Page{Title: title, Body: []byte(body)} // Creamos una nueva pagina
-	p.save() // Guardamos la pagina
+	err := p.save() // Guardamos la pagina
+	if err != nil { // Si existe un error
+		http.Error(w, err.Error(), http.StatusInternalServerError) // Creamos un error interno
+		return // Retornamos
+	}
 	http.Redirect(w, r, "/view/"+title, http.StatusFound) // Redireccionamos a la pagina de edicion
 }
 
 func main() {
 	// Crear rutas 
 	// Responder al clinete con un mensaje
-	http.HandleFunc("/view/", viewHandler)
-	http.HandleFunc("/edit/", editHandler)
-	http.HandleFunc("/save/", saveHandler)
+	http.HandleFunc("/view/", makeHandler(viewHandler))
+	http.HandleFunc("/edit/", makeHandler(editHandler))
+	http.HandleFunc("/save/", makeHandler(saveHandler))
 
 	// Levantar el servidor
 	log.Fatal(http.ListenAndServe(":8080", nil)) // Escuchamos en el puerto 8080
