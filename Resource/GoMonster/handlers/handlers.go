@@ -2,11 +2,21 @@ package handlers
 
 import (
     "fmt"
+	"html/template"
     "net/http"
 )
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "Pagina de Inicio de GoMonster")
+    tpl, err := template.ParseFiles("templates/index.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	err = tpl.Execute(w, nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func NewGameHandler(w http.ResponseWriter, r *http.Request) {
