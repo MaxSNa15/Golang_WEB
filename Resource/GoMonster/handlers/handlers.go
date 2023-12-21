@@ -9,8 +9,13 @@ import (
 const (
 	tmplDir = "templates/"
 	baseTmpl = tmplDir + "base.html"
-
 )
+
+type Player struct {
+	Name string
+}
+
+var player Player
 
 func renderTemplate(w http.ResponseWriter, base, page string, data any) {
 	tpl := template.Must(template.ParseFiles(base, tmplDir+page+".html"))
@@ -23,15 +28,28 @@ func renderTemplate(w http.ResponseWriter, base, page string, data any) {
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
+	Reset()
 	renderTemplate(w, baseTmpl, "index", nil)
 }
 
 func NewGameHandler(w http.ResponseWriter, r *http.Request) {
+	Reset()
 	renderTemplate(w, baseTmpl, "new-game", nil)
 }
 
 func GameHandler(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, baseTmpl, "game", nil)
+	if r.Method == "POST" {
+		err := r.ParseForm()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		player.Name = r.Form.Get("name")
+	}
+	if player.Name == "" {
+		http.Redirect(w, r, "/new", http.StatusFound)
+	}
+	renderTemplate(w, baseTmpl, "game", player)
 }
 
 func PlayHandler(w http.ResponseWriter, r *http.Request) {
@@ -39,5 +57,11 @@ func PlayHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
+	Reset()
 	renderTemplate(w, baseTmpl, "about", nil)
+}
+
+// Reiniciar valores
+func Reset() {
+	player.Name = ""
 }
