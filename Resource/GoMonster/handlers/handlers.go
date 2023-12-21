@@ -27,11 +27,11 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewGameHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Pagina de Nuevo Juego de GoMonster")
+	renderTemplate(w, baseTmpl, "new-game", nil)
 }
 
 func GameHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Pagina de Juego de GoMonster")
+	renderTemplate(w, baseTmpl, "game", nil)
 }
 
 func PlayHandler(w http.ResponseWriter, r *http.Request) {
@@ -39,5 +39,5 @@ func PlayHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Pagina de Acerca de GoMonster")
+	renderTemplate(w, baseTmpl, "about", nil)
 }

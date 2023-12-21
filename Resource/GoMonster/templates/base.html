@@ -8,7 +8,27 @@
 </head>
 <body>
 
-    {{ template "content" . }}
+    <header>
+        <h1> {{template "title" .}} </h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/new">Nuevo Juego</a></li>
+            <li><a href="/game">Juego</a></li>
+            
+            <li><a href="/about">Acerca de</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        {{ template "content" . }}
+    </main>
+
+    <footer>
+        <p>GoMonster by SNava &copy; 2020</p>
+    </footer>
 
 </body>
 </html>
