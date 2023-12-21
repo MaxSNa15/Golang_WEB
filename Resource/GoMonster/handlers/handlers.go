@@ -6,17 +6,24 @@ import (
     "net/http"
 )
 
+const (
+	tmplDir = "templates/"
+	baseTmpl = tmplDir + "base.html"
+
+)
+
+func renderTemplate(w http.ResponseWriter, base, page string, data any) {
+	tpl := template.Must(template.ParseFiles(base, tmplDir+page+".html"))
+	
+	err := tpl.ExecuteTemplate(w, "base", data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-    tpl, err := template.ParseFiles("templates/index.html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	err = tpl.Execute(w, nil)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	renderTemplate(w, baseTmpl, "index", nil)
 }
 
 func NewGameHandler(w http.ResponseWriter, r *http.Request) {
