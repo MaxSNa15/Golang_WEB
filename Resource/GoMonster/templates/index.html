@@ -5,5 +5,38 @@
 {{ end }}
 
 {{ define "content" }}
-    <h2>Inicio</h2>
+    <section class="seccion-container">
+        <h2 class="title">Bienvendio a GoMonster</h2>
+        <article class="monsters-a">
+            <div class="monster-card">
+                <picture>
+                    <img src="static/img/m-grass.png" alt="Monster Grass">
+                </picture>
+                <h3> Mounstruo de Hierba </h3>
+            </div>
+            <div class="monster-card">
+                <picture>
+                    <img src="static/img/m-fire.png" alt="Monster Fire">
+                </picture>
+                <h3> Mounstruo de Fuego </h3>
+            </div>
+            <div class="monster-card">
+                <picture>
+                    <img src="static/img/m-water.png" alt="Monster Water">
+                </picture>
+                <h3> Mounstruo de Agua </h3>
+            </div>
+        </article>
+    </section>
+
+    <section class="seccion-game">
+        <p>Juega contra la computadora</p>
+        <a class="boton-game" href="/new">Nuevo Juego</a>
+        <h2>Comó se juega ?</h2>
+        <ol>
+            <li>Crear un juego nuevo.</li>
+            <li>Ingrese su nombre.</li>
+            <li>Empezar a jugar.</li>
+        </ol>
+    </section>
 {{ end }}
