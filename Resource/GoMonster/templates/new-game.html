@@ -5,5 +5,20 @@
 {{ end }}
 
 {{ define "content" }}
-    <h2>Nuevo Juego</h2>
+    <section>
+        <div>
+            <div>
+                <h2>Ingrese su Nombre</h2>
+
+                <form action="/game" method="post">
+                    <div>
+                        <input type="text" name="name" id="name" placeholder="Ingrese su nombre" class="">
+                    </div>
+                    <div>
+                        <input type="submit" class="boton-game" value="Empezar a Jugar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
 {{ end }}

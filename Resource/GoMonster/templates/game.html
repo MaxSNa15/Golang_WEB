@@ -1,9 +1,60 @@
 {{ template "base" . }}
 
 {{ define "title" }}
-    GAME
+    Jugar  -> GoMonster
 {{ end }}
 
 {{ define "content" }}
-    <h2>GAME</h2>
+    <section>
+        <div>
+            <div>
+                <div>
+                    <h2>Usuario</h2>
+                    <p>0</p>
+                    <div class="opciones-u">
+                        <button class="boton-green">
+                            <img src="static/img/monster.png" alt="monster" width="50">
+                            <span>Hierba</span>
+                        </button>
+                        <button class="boton-green">
+                            <img src="static/img/monster.png" alt="monster" width="50">
+                            <span>Fuego</span>
+                        </button>
+                        <button class="boton-green">
+                            <img src="static/img/monster.png" alt="monster" width="50">
+                            <span>Agua</span>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <h2>Computadora</h2>
+                    <p>0</p>
+                    <div>
+                        <div>
+                            <img src="static/img/reload_icon.png" alt="reload" width="200">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div>
+            <div>
+                <h2>Resultado</h2>
+                <ul>
+                    <li>El usuario elgio al Moustro de Agua</li>
+                    <li>La computadora elgio al Moustro de Fuego</li>
+                    <li>El usuario gano !!!</li>
+                    <li>Felicidades</li>
+                </ul>
+            </div>
+            <div>
+                <div>
+                    <a class="boton-game" href="/new">Nuevo juego</a>
+                </div>
+            </div>
+        </div>
+    </section>
 {{ end }}

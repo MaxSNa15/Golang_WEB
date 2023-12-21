@@ -22,9 +22,11 @@ html {
 body {
     font-size: 1.6rem;
 }
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
 
 h1 {
-    margin: 0;
     font-size: 5rem;
     font-weight: bold;
     color: var(--color-white);
@@ -81,7 +83,6 @@ main{
 }
 
 .seccion-container h2{
-    margin: 0;
     text-align: center;
     font-size: 2.5rem;
 }
@@ -119,7 +120,6 @@ main{
 }
 
 .monster-card h3{
-    margin: 0;
     font-size: 2rem;
     text-align: center;
 }
