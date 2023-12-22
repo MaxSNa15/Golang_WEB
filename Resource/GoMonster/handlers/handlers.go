@@ -1,9 +1,12 @@
 package handlers
 
 import (
-    "fmt"
+	"GoMonster/logic"
+	"encoding/json"
 	"html/template"
-    "net/http"
+	"log"
+	"net/http"
+	"strconv"
 )
 
 const (
@@ -53,7 +56,16 @@ func GameHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func PlayHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Juego de GoMonster")
+	playerChoice, _ := strconv.Atoi(r.URL.Query().Get("c"))
+	result := logic.PlayRound(playerChoice)
+
+	out, err := json.MarshalIndent(result, "", "    ")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(out)
 }
 
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
@@ -64,4 +76,6 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 // Reiniciar valores
 func Reset() {
 	player.Name = ""
+	logic.ComputerScore = 0
+	logic.PlayerScore = 0
 }

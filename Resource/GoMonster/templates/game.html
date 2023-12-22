@@ -6,32 +6,32 @@
 
 {{ define "content" }}
     <section>
-        <div>
-            <div>
-                <div>
+        <div class="container">
+            <div class="row">
+                <div class="col py-5 text-center">
                     <h2>{{ .Name }}</h2>
-                    <p>0</p>
+                    <p id="player_score">0</p>
                     <div class="opciones-u">
-                        <button class="boton-green">
-                            <img src="static/img/monster.png" alt="monster" width="50">
-                            <span>Hierba</span>
-                        </button>
-                        <button class="boton-green">
+                        <button onclick="choose(0)" class="boton-green">
                             <img src="static/img/monster.png" alt="monster" width="50">
                             <span>Fuego</span>
                         </button>
-                        <button class="boton-green">
+                        <button onclick="choose(1)" class="boton-green">
                             <img src="static/img/monster.png" alt="monster" width="50">
                             <span>Agua</span>
+                        </button>
+                        <button onclick="choose(2)" class="boton-green">
+                            <img src="static/img/monster.png" alt="monster" width="50">
+                            <span>Pasto</span>
                         </button>
                     </div>
                 </div>
                 <div>
                     <h2>Computadora</h2>
-                    <p>0</p>
+                    <p id="computer_score">0</p>
                     <div>
                         <div>
-                            <img src="static/img/reload_icon.png" alt="reload" width="200">
+                            <img id="img_computer" src="static/img/reload_icon.png" alt="reload" width="200">
                         </div>
                     </div>
                 </div>
@@ -44,10 +44,10 @@
             <div>
                 <h2>Resultado</h2>
                 <ul>
-                    <li>El usuario elgio al Moustro de Agua</li>
-                    <li>La computadora elgio al Moustro de Fuego</li>
-                    <li>El usuario gano !!!</li>
-                    <li>Felicidades</li>
+                    <li id="player_choise">El usuario elgio al Moustro de Agua</li>
+                    <li id="computer_choise">La computadora elgio al Moustro de Fuego</li>
+                    <li id="round_result">El usuario gano !!!</li>
+                    <li id="round_message">Felicidades</li>
                 </ul>
             </div>
             <div>
