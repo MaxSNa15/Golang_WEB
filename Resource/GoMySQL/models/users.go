@@ -41,7 +41,7 @@ func (this *User) insert(){
 // Funcion para crear un usuario en la base de datos
 func CreateUser(name, password, email string) *User {
 	user := NewUser(name, password, email)
-	user.insert()
+	user.Save()
 	return user
 }
 

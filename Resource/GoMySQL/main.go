@@ -8,11 +8,11 @@ import (
 
 func main() {
 	data.Connect()
-	// data.CreateTable(models.UserSchema, "users")
+	data.CreateTable(models.UserSchema, "users")
 	// data.TruncateTable("users") // Elimina todos los registros de la tabla
 	data.Ping()
-	// userJua := models.CreateUser("Roel", "1234567", "roel@ca.com")
-	// fmt.Println(userJua)
+	userJua := models.CreateUser("Roel", "1234567", "roel@ca.com")
+	fmt.Println(userJua)
 
 	userss := models.ListUsers()
 	fmt.Println(userss)
@@ -25,13 +25,13 @@ func main() {
 	fmt.Println(user)
 
 	// Eliminar un usuario
-	user.Delete()
+	// user.Delete()
 
-	fmt.Println(models.ListUsers())
+	// fmt.Println(models.ListUsers())
 
-	data.TruncateTable("users") // Elimina todos los registros de la tabla
+	// data.TruncateTable("users") // Elimina todos los registros de la tabla
 
-	fmt.Println(models.ListUsers())
+	// fmt.Println(models.ListUsers())
 
 
 	data.Close()

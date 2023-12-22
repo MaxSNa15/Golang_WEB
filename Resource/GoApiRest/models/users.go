@@ -3,10 +3,10 @@ package models
 import "GoApiRest/data"
 
 type User struct {
-	Id 	 		int64
-	Name 		string
-	password 	string
-	email 		string
+	Id 	 		int64  `json:"id"`
+	Name 		string `json:"name"`
+	Password 	string `json:"password"`
+	Email 		string `json:"email"`
 }
 
 type Users []User
@@ -24,8 +24,8 @@ const UserSchema string =
 func NewUser(name, password, email string) *User {
 	user := &User{
 		Name: name,
-		password: password,
-		email: email,
+		Password: password,
+		Email: email,
 	}
 	return user
 }
@@ -33,7 +33,7 @@ func NewUser(name, password, email string) *User {
 // Insertar un Registro en la base de datos
 func (this *User) insert(){
 	sql := "INSERT users SET name=?, password=?, email=?"
-	result, _ := data.Exec(sql, this.Name, this.password, this.email)
+	result, _ := data.Exec(sql, this.Name, this.Password, this.Email)
 	// Obtenemos el ultimo id insertado
 	this.Id, _ = result.LastInsertId()
 }
@@ -41,7 +41,7 @@ func (this *User) insert(){
 // Funcion para crear un usuario en la base de datos
 func CreateUser(name, password, email string) *User {
 	user := NewUser(name, password, email)
-	user.insert()
+	user.Save()
 	return user
 }
 
@@ -54,7 +54,7 @@ func ListUsers() Users {
 		// Creamos un nuevo usuario (objeto)
 		user := User{}
 		// Escaneamos los datos de la fila y los guardamos en el objeto
-		rows.Scan(&user.Id, &user.Name, &user.password, &user.email)
+		rows.Scan(&user.Id, &user.Name, &user.Password, &user.Email)
 		// Agregamos el usuario a la lista de usuarios
 		users = append(users, user)
 	}
@@ -69,7 +69,7 @@ func GetUser(id int) *User {
 	rows, _ := data.Query(sql, id)
 	for rows.Next() {
 		// Escaneamos los datos de la fila 
-		rows.Scan(&user.Id, &user.Name, &user.password, &user.email)
+		rows.Scan(&user.Id, &user.Name, &user.Password, &user.Email)
 	}
 	return user
 }
@@ -77,7 +77,7 @@ func GetUser(id int) *User {
 // Actualizar un registro de la base de datos
 func (this *User) update() {
 	sql := "UPDATE users SET name=?, password=?, email=? WHERE id=?"
-	_, _ = data.Exec(sql, this.Name, this.password, this.email, this.Id)
+	_, _ = data.Exec(sql, this.Name, this.Password, this.Email, this.Id)
 }
 
 /*
