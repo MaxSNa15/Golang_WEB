@@ -30,3 +30,18 @@ para iniciar el proyecto ejecutar el siguiente comando
 ```bash
 air
 ```
+
+
+## GoMySQL
+
+Aplicación de ejemplo para crear un CRUD con GO y MySQL.
+
+### Instalación
+
+> Es necesario tener air para el refresco automatico de la aplicación
+
+Instalar los drivers de conexión a MySQL
+
+```bash
+go get github.com/go-sql-driver/mysql
+```
