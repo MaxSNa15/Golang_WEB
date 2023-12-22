@@ -2,7 +2,6 @@
 
 Aplicaciones en la WEB con GO
 
-![Gophers](Assets/gopher.png)
 
 ## GoWiki
 
@@ -45,3 +44,15 @@ Instalar los drivers de conexión a MySQL
 ```bash
 go get github.com/go-sql-driver/mysql
 ```
+
+## GoApiRest
+
+Aplicación de ejemplo para crear un API REST con GO y MySQL.
+
+Instalar los drivers de conexión a gorilla/mux
+
+```bash
+go get github.com/gorilla/mux
+```
+
+![Gophers](Assets/gopher.png)
