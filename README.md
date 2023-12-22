@@ -49,10 +49,27 @@ go get github.com/go-sql-driver/mysql
 
 Aplicación de ejemplo para crear un API REST con GO y MySQL.
 
+### Instalación
+
 Instalar los drivers de conexión a gorilla/mux
 
 ```bash
 go get github.com/gorilla/mux
 ```
 
+## GoWEB ORM con GORM
+
+ORM con GORM para la creación de tablas en MySQL con GO.
+
+### Instalación
+
+Instalar GORM y los drivers de conexión a MySQL
+
+```bash
+go get gorm.io/gorm
+
+go get gorm.io/driver/mysql
+```
+
+----
 ![Gophers](Assets/gopher.png)
